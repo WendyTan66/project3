@@ -2,4 +2,30 @@
 {% block content %}
 
 <h3 class="light-green center-align">Cookbook</h3>
+<div class="row">
+    <div class="col s12 center-align">
+        <a href="{{ url_for('share_recipe')}}" class="'btn-large light-green darken-2 white-text">
+            Share Recipe <i class="fas fa-plus-square right"></i>
+        </a>
+    </div>
+</div>
+
+<ul class="collapsible">
+    {% for recipe in recipes %}
+    <li>
+      <div class="collapsible-header">
+        <strong>{{recipe.title}}</strong>
+      </div>
+      <div class="collapsible-body"><strong>{{recipe.category}}</strong>
+      <p>{{recipe.ingredients}}</p>
+      <p>{{recipe.instructions}}</p>
+      <p><a href="{{url_for('edit_recipe', recipe_id=recipe.id)}}" class="btn green accent-4">Edit</a>
+        <a href="{{url_for('delete_recipe', recipe_id=recipe.id)}}" class="btn red">Delete</a>
+      </p>
+      
+    </div>
+    </li>
+    {% endfor %}
+  </ul>
+  
 {% endblock %}

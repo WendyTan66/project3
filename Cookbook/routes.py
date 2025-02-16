@@ -5,7 +5,8 @@ from Cookbook.models import Category, Recipe
 
 @app.route("/")
 def home():
-    return render_template("cookbook.html")
+    recipes = list(Recipe.query.order_by(Recipe.id).all())
+    return render_template("cookbook.html", recipes=recipes)
 
 
 @app.route("/categories")
@@ -41,3 +42,39 @@ def delete_category(category_id):
     db.session.commit()
     return redirect(url_for("categories"))
 
+
+@app.route("/share_recipe", methods=["GET","POST"])
+def share_recipe():
+    categories = list(Category.query.order_by(Category.category_name).all())
+    if request.method == "POST":
+        recipe = Recipe(
+            title=request.form.get("title"),
+            ingredients=request.form.get("ingredients"),
+            instructions=request.form.get("instructions"),
+            category_id=request.form.get("category_id")
+        )
+        db.session.add(recipe)
+        db.session.commit()
+        return redirect(url_for("home"))
+    return render_template("share_recipe.html", categories=categories)
+
+
+@app.route("/edit_recipe/<int:recipe_id>", methods=["GET","POST"])
+def edit_recipe(recipe_id):
+    recipe = Recipe.query.get_or_404(recipe_id)
+    categories = list(Category.query.order_by(Category.category_name).all())
+    if request.method == "POST":
+        recipe.title = request.form.get("title"),
+        recipe.ingredients=request.form.get("ingredients"),
+        recipe.instructions=request.form.get("instructions"),
+        recipe.category_id=request.form.get("category_id")
+        db.session.commit()
+    
+    return render_template("edit_recipe.html", recipe=recipe, categories=categories)
+
+@app.route("/delete_recipe/<int:recipe_id>")
+def delete_recipe(recipe_id):
+    recipe=Recipe.query.get_or_404(recipe_id)
+    db.session.delete(recipe)
+    db.session.commit()
+    return redirect(url_for("home"))
