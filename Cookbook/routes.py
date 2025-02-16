@@ -78,3 +78,9 @@ def delete_recipe(recipe_id):
     db.session.delete(recipe)
     db.session.commit()
     return redirect(url_for("home"))
+
+@app.route("/category/<int:category_id>")
+def view_category(category_id):
+    category = Category.query.get_or_404(category_id)
+    recipes = Recipe.query.filter_by(category_id=category_id).all()
+    return render_template("view_category.html", category=category, recipes=recipes)

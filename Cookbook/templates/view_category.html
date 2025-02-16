@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3 class="light-green center-align">{{ category.name }}</h3>
+
+<ul class="collapsible">
+    {% for recipe in recipes %}
+    <li>
+        <div class="collapsible-header">
+            <strong>{{ recipe.title }}</strong>
+        </div>
+        <div class="collapsible-body">
+            <p><strong>Ingredients:</strong> {{ recipe.ingredients }}</p>
+            <p><strong>Instructions:</strong> {{ recipe.instructions }}</p>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+
+{% if not recipes %}
+<p class="center-align">No recipes found in this category.</p>
+{% endif %}
+
+{% endblock %}

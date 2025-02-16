@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h3 class="center-align">{{ category.category_name }} Recipes</h3>
+
+  <div class="row">
+    {% for recipe in recipes %}
+      <div class="col s12 m6">
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">{{ recipe.title }}</span>
+            <p>{{ recipe.ingredients }}</p>
+          </div>
+          <div class="card-action">
+            <a href="{{ url_for('view_recipe', recipe_id=recipe.id) }}">View Recipe</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  {% if recipes|length == 0 %}
+    <p>No recipes available in this category yet.</p>
+  {% endif %}
+{% endblock %}
