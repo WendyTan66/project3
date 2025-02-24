@@ -28,3 +28,7 @@ migrate = Migrate(app, db)
 
 from Cookbook import routes
 from Cookbook import models
+
+from dotenv import load_dotenv
+load_dotenv()
+
