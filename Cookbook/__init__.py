@@ -29,6 +29,8 @@ migrate = Migrate(app, db)
 from Cookbook import routes
 from Cookbook import models
 
+import os
 from dotenv import load_dotenv
 load_dotenv()
 
+DATABASE_URL = os.getenv("DATABASE_URL")
